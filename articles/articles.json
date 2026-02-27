@@ -10,5 +10,11 @@
     "filename": "example1.md",
     "date": "2026-02-27",
     "summary": "这是第一篇示例文章的内容。它使用 Markdown 格式编写。"
+  },
+  {
+    "title": "示例文章 3",
+    "filename": "example3.md",
+    "date": "2026-02-27",
+    "summary": "这是第三篇示例文章的内容。Markdown 支持 **加粗** 和 *斜体*。"
   }
 ]
