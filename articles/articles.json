@@ -1,0 +1,14 @@
+[
+  {
+    "title": "示例文章 1",
+    "filename": "example1.md",
+    "date": "2026-02-27",
+    "summary": "这是第一篇示例文章的摘要。"
+  },
+  {
+    "title": "示例文章 2",
+    "filename": "example2.md",
+    "date": "2026-02-26",
+    "summary": "这是第二篇示例文章的摘要。"
+  }
+]

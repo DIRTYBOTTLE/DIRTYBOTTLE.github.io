@@ -99,6 +99,8 @@
     </header>
 
     <main class="container">
+        <!-- 在头部加入 markdown 解析库 -->
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
         <section class="intro">
             <h1>欢迎来到DIRTYBOTTLE的个人博客</h1>
             <p>这里记录我的想法、项目和生活点滴。</p>
@@ -106,17 +108,12 @@
 
         <section class="posts">
             <h2>最新文章</h2>
-            <ul class="post-list">
-                <li class="post-item">
-                    <h2><a href="#">示例文章标题 1</a></h2>
-                    <p>这是一段简短的摘要，吸引读者点击阅读全文。</p>
-                </li>
-                <li class="post-item">
-                    <h2><a href="#">示例文章标题 2</a></h2>
-                    <p>另一段摘要内容，可以在这里展示文章的重点。</p>
-                </li>
-                <!-- 继续添加文章列表 -->
+            <ul class="post-list" id="post-list">
+                <!-- 动态加载文章列表 -->
             </ul>
+        </section>
+        <section class="article-content" id="article-content" style="display:none; padding-top:50px;">
+            <!-- 点击文章后展示内容 -->
         </section>
     </main>
 
@@ -126,5 +123,37 @@
             <p><a href="#">隐私政策</a> | <a href="#">免责声明</a></p>
         </div>
     </footer>
+
+    <script>
+        // 读取文章列表并生成预览
+        async function loadPosts() {
+            try {
+                const res = await fetch('articles/articles.json');
+                const posts = await res.json();
+                const listEl = document.getElementById('post-list');
+                posts.forEach(post => {
+                    const li = document.createElement('li');
+                    li.className = 'post-item';
+                    li.innerHTML = `<h2><a href="#" data-file="${post.filename}">${post.title}</a></h2>
+                                    <p>${post.summary}</p>`;
+                    listEl.appendChild(li);
+                });
+                // attach click handlers
+                document.querySelectorAll('#post-list a').forEach(a => {
+                    a.addEventListener('click', async e => {
+                        e.preventDefault();
+                        const file = e.target.dataset.file;
+                        const md = await fetch('articles/' + file).then(r=>r.text());
+                        document.getElementById('article-content').style.display = 'block';
+                        document.getElementById('article-content').innerHTML = marked.parse(md);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                });
+            } catch (err) {
+                console.error('加载文章列表失败', err);
+            }
+        }
+        loadPosts();
+    </script>
 </body>
 </html>
